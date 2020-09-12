@@ -27,11 +27,11 @@ class DisposeSubCommand extends SubCommand
 	public function execute(CommandSender $sender, array $args) : bool {
 		$plot = $this->getPlugin()->getPlotByPosition($sender);
 		if($plot === null) {
-			$sender->sendMessage(TextFormat::RED . $this->translateString("notinplot"));
-			return true;
+            $sender->sendMessage($this->getPlugin()->prefix . TextFormat::RED . "Du befindest dich nicht auf einem Grundstück.");
+            return true;
 		}
 		if($plot->owner !== $sender->getName() and !$sender->hasPermission("myplot.admin.dispose")) {
-			$sender->sendMessage(TextFormat::RED . $this->translateString("notowner"));
+			$sender->sendMessage($this->getPlugin()->prefix . TextFormat::RED . "Du bist nicht der Besitzer dieses Grundstücks.");
 			return true;
 		}
 		if(isset($args[0]) and $args[0] == $this->translateString("confirm")) {
@@ -42,13 +42,13 @@ class DisposeSubCommand extends SubCommand
 				return true;
 			}
 			if($this->getPlugin()->disposePlot($plot)) {
-				$sender->sendMessage($this->translateString("dispose.success"));
+				$sender->sendMessage($this->getPlugin()->prefix . TextFormat::GREEN . "Das Grundstück wurde freigegeben.");
 			}else{
 				$sender->sendMessage(TextFormat::RED . $this->translateString("error"));
 			}
 		}else{
 			$plotId = TextFormat::GREEN . $plot . TextFormat::WHITE;
-			$sender->sendMessage($this->translateString("dispose.confirm", [$plotId]));
+			$sender->sendMessage($this->getPlugin()->prefix . TextFormat::GREEN . "Bist du sicher, dass du das Grundstück " . TextFormat::YELLOW . $plot->X . ";" . $plot->Z . TextFormat::GREEN . " freigeben möchtest? Wenn ja, benutze /p dispose confirm.");
 		}
 		return true;
 	}
