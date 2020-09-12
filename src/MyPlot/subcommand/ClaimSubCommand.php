@@ -32,14 +32,14 @@ class ClaimSubCommand extends SubCommand
 		}
 		$plot = $this->getPlugin()->getPlotByPosition($sender);
 		if($plot === null) {
-			$sender->sendMessage(TextFormat::RED . $this->translateString("notinplot"));
+			$sender->sendMessage($this->getPlugin()->prefix . TextFormat::RED . "Du befindest dich nicht auf einem Grundstück.");
 			return true;
 		}
 		if($plot->owner != "") {
 			if($plot->owner === $sender->getName()) {
-				$sender->sendMessage(TextFormat::RED . $this->translateString("claim.yourplot"));
+				$sender->sendMessage($this->getPlugin()->prefix . TextFormat::RED . "Das Grundstück wurde bereits von dir beansprucht.");
 			}else{
-				$sender->sendMessage(TextFormat::RED . $this->translateString("claim.alreadyclaimed", [$plot->owner]));
+				$sender->sendMessage($this->getPlugin()->prefix . TextFormat::RED . "Das Grundstück wurde bereits von " . TextFormat::YELLOW . $plot->owner . TextFormat::RED . " beansprucht.");
 			}
 			return true;
 		}
@@ -52,7 +52,7 @@ class ClaimSubCommand extends SubCommand
 			}
 		}
 		if($plotsOfPlayer >= $maxPlots) {
-			$sender->sendMessage(TextFormat::RED . $this->translateString("claim.maxplots", [$maxPlots]));
+			$sender->sendMessage($this->getPlugin()->prefix . TextFormat::RED . "Du kannst keine weiteren Grundstücke besitzen.");
 			return true;
 		}
 		$plotLevel = $this->getPlugin()->getLevelSettings($plot->levelName);
@@ -62,7 +62,7 @@ class ClaimSubCommand extends SubCommand
 			return true;
 		}
 		if($this->getPlugin()->claimPlot($plot, $sender->getName(), $name)) {
-			$sender->sendMessage($this->translateString("claim.success"));
+			$sender->sendMessage($this->getPlugin()->prefix . TextFormat::GREEN . "Das Grundstück gehört nun dir.");
 		}else{
 			$sender->sendMessage(TextFormat::RED . $this->translateString("error"));
 		}
