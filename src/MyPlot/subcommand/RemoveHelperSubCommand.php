@@ -34,18 +34,18 @@ class RemoveHelperSubCommand extends SubCommand
 		$helperName = $args[0];
 		$plot = $this->getPlugin()->getPlotByPosition($sender);
 		if($plot === null) {
-			$sender->sendMessage(TextFormat::RED . $this->translateString("notinplot"));
+			$sender->sendMessage($this->getPlugin()->prefix . TextFormat::RED . "Du befindest dich nicht auf einem Grundstück.");
 			return true;
 		}
 		if($plot->owner !== $sender->getName() and !$sender->hasPermission("myplot.admin.removehelper")) {
-			$sender->sendMessage(TextFormat::RED . $this->translateString("notowner"));
+			$sender->sendMessage($this->getPlugin()->prefix . TextFormat::RED . "Du bist nicht der Besitzer dieses Grundstücks.");
 			return true;
 		}
 		$helper = $this->getPlugin()->getServer()->getPlayer($helperName);
 		if($helper === null)
 			$helper = new OfflinePlayer($this->getPlugin()->getServer(), $helperName);
 		if($this->getPlugin()->removePlotHelper($plot, $helper->getName())) {
-			$sender->sendMessage($this->translateString("removehelper.success", [$helper->getName()]));
+			$sender->sendMessage($this->getPlugin()->prefix . TextFormat::YELLOW . $helper->getName() . TextFormat::GREEN . " wurde als Helfer vom Grundstück entfernt.");
 		}else{
 			$sender->sendMessage(TextFormat::RED . $this->translateString("error"));
 		}
