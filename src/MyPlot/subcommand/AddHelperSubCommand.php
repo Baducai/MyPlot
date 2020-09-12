@@ -34,12 +34,12 @@ class AddHelperSubCommand extends SubCommand
 		$helperName = $args[0];
 		$plot = $this->getPlugin()->getPlotByPosition($sender);
 		if($plot === null) {
-            $sender->sendMessage($this->getPlugin()->prefix . TextFormat::RED . "Du befindest dich nicht auf einem Grundstück.");
-            return true;
+            		$sender->sendMessage($this->getPlugin()->prefix . TextFormat::RED . "Du befindest dich nicht auf einem Grundstück.");
+            		return true;
 		}
 		if($plot->owner !== $sender->getName() and !$sender->hasPermission("myplot.admin.addhelper")) {
-            $sender->sendMessage($this->getPlugin()->prefix . TextFormat::RED . "Du bist nicht der Besitzer dieses Grundstücks.");
-            return true;
+            		$sender->sendMessage($this->getPlugin()->prefix . TextFormat::RED . "Du bist nicht der Besitzer dieses Grundstücks.");
+            		return true;
 		}
 		$helper = $this->getPlugin()->getServer()->getPlayer($helperName);
 		if($helper === null)
